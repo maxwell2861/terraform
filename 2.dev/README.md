@@ -17,8 +17,8 @@
 #
 ```
 
-2021-03-16
- - Update
+2021-04-14
+ - Dev Environment Update
 
 ```
 
@@ -118,6 +118,7 @@ module "cluster" {
 
 ## ElastiCache (Redis)
 
+
 Redis Provisioning Code ( With Module)
 
 ```terraform
@@ -174,7 +175,7 @@ parameters              = local.redis_info.dev-test-redis["parameters"]
 RDS Provisioning (With Module)
 
 Dev Environment 는  AuroraMYQL 이 아닌 MySQL Community 로 생성하게끔 설정되어 있습니다. (cost save 목적)
-만약 QA 환경일 경우 Prod 환경과 동일한 set 을 만들 필요성은 있음..!
+만약 QA 환경일 경우 Prod 환경과 동일한 set 을 만들 필요성이 있음..!
 
 ```terraform
 
