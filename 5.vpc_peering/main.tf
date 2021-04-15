@@ -22,6 +22,3 @@ module "prod-peering" {
     peer_vpc_id     = local.prod_resource.vpc_id
 }
 
-#--------------------------------------
-# Infra Network To Oregon Prod
-#--------------------------------------
