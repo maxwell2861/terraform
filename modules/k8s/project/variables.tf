@@ -1,0 +1,9 @@
+variable project_name       {}
+variable cluster_id         {}
+variable cluster_name       {}
+variable namespaces         {}
+variable alb_yaml           {}
+variable dot_com_acm        {}
+variable dot_net_acm        {}
+variable alb_subnet         {}
+variable alb_sg             {}

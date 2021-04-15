@@ -1,0 +1,13 @@
+variable  env                               {}
+variable  prefix                            {}
+variable  name                              {}
+variable  subnet_group                      {}
+variable  security_group                    {}
+variable  port                              {}
+variable  username                          {}
+variable  password                          {}
+variable  type                              {}
+variable  engine                            {}
+variable  az                                {}
+variable  parameters                        {}
+variable  family_version                    {}

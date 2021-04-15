@@ -1,0 +1,61 @@
+affinity: {}
+awsMaxRetries: null
+clusterName: ${clustername}
+defaultTags: {}
+enableCertManager: false
+enablePodReadinessGateInject: null
+enableShield: null
+enableWaf: null
+enableWafv2: null
+env: null
+extraVolumeMounts: null
+extraVolumes: null
+fullnameOverride: ''
+hostNetwork: false
+image:
+  pullPolicy: IfNotPresent
+  repository: >-
+    602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon/aws-load-balancer-controller
+  tag: v2.1.2
+imagePullSecrets: []
+ingressClass: alb
+ingressMaxConcurrentReconciles: null
+livenessProbe:
+  failureThreshold: 2
+  httpGet:
+    path: /healthz
+    port: 61779
+    scheme: HTTP
+  initialDelaySeconds: 30
+  timeoutSeconds: 10
+logLevel: null
+metricsBindAddr: ''
+nameOverride: ''
+nodeSelector: {}
+podAnnotations: {}
+podDisruptionBudget: {}
+podLabels: {}
+podSecurityContext:
+  fsGroup: 65534
+priorityClassName: ''
+rbac:
+  create: true
+region: null
+replicaCount: 1
+resources: {}
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+serviceAccount:
+  annotations: {}
+  create: true
+  name: null
+serviceMaxConcurrentReconciles: null
+syncPeriod: null
+targetgroupbindingMaxConcurrentReconciles: null
+terminationGracePeriodSeconds: 10
+tolerations: []
+vpcId: null
+watchNamespace: null
+webhookBindPort: null
