@@ -24,7 +24,7 @@ locals {
   }
 
   rds_info = {
-        dev-kdr-db = {
+        dev-test-db = {
               name            = "db"
               type            = "db.t3.small"
               engine          = "5.7"

@@ -173,9 +173,34 @@ parameters              = local.redis_info.dev-test-redis["parameters"]
 ## RDS
 RDS Provisioning (With Module)
 
+Dev Environment 는  AuroraMYQL 이 아닌 MySQL Community 로 생성하게끔 설정되어 있습니다. (cost save 목적)
+만약 QA 환경일 경우 Prod 환경과 동일한 set 을 만들 필요성은 있음..!
 
 ```terraform
 
-RDS
+rds_info = {
+        dev-test-db = {
+              name            = "db"
+              type            = "db.t3.small"
+              engine          = "5.7"
+              port            = 3306
+              username        = local.common_info.db_creds.CLUSTER_MASTER_USERNAME
+              password        = local.common_info.db_creds.CLUSTER_MASTER_PASSWORD
+              subnet_group    = local.network_info.db_subnet_group
+              sg              = [local.network_info.db_sg,local.network_info.common_sg]
+              az              = local.network_info.az_zone
+              #Paremeter Groups
+                family_version  = "mysql5.7"
+                parameters = {
+                    binlog-format =  {
+                      #disable Cluster Mode
+                      apply_method = "pending-reboot"
+                      name  = "binlog_format"
+                      value = "MIXED"
+                    }
+                }
+        }
+  }
+}
 
 ```
