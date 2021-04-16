@@ -14,7 +14,6 @@ module "prod-subnet" {
     #EKS Cluster
     eks_cluster_name            = local.cluster_names
 }
-
 #-----------------------------------------------
 #
 # Security Groups | Common | Service | HQ 
@@ -22,7 +21,7 @@ module "prod-subnet" {
 #-----------------------------------------------
 
 module "prod-common-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/common"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -31,10 +30,12 @@ module "prod-common-sg"  {
     sg_name                     = local.sg_info.common.name
     sg_desc                     = local.sg_info.common.desc
     sg_inbounds                 = local.sg_info.common.inbound_set
+    #EKS Cluster Owned
+    eks_cluster_name            = local.cluster_names
 }
 
 module "prod-service-lb-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -46,7 +47,7 @@ module "prod-service-lb-sg"  {
 }
 
 module "prod-hq-lb-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -58,7 +59,7 @@ module "prod-hq-lb-sg"  {
 }
 
 module "prod-redis-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -70,7 +71,7 @@ module "prod-redis-sg"  {
 }
 
 module "prod-rds-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -80,16 +81,6 @@ module "prod-rds-sg"  {
     sg_desc                     = local.sg_info.rds.desc
     sg_inbounds                 = local.sg_info.rds.inbound_set
 }
-
-
-/*
-module "prod-common-rules"  {
-    source = "../../modules/network/security_groups_rules"
-    depends_on = [module.prod-common-sg]
-    sg_id                       = local.sg_rule.common.sg_id
-    sg_rules                    = local.sg_rule.common.rules
-}
-*/
 
 
 #-----------------------------------------

@@ -22,7 +22,7 @@ module "dev-subnet" {
 #-----------------------------------------------
 
 module "dev-common-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/common"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -31,10 +31,12 @@ module "dev-common-sg"  {
     sg_name                     = local.sg_info.common.name
     sg_desc                     = local.sg_info.common.desc
     sg_inbounds                 = local.sg_info.common.inbound_set
+    #EKS Cluster Owned
+    eks_cluster_name            = local.cluster_names
 }
 
 module "dev-service-lb-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -46,7 +48,7 @@ module "dev-service-lb-sg"  {
 }
 
 module "dev-hq-lb-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -58,7 +60,7 @@ module "dev-hq-lb-sg"  {
 }
 
 module "dev-redis-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -70,7 +72,7 @@ module "dev-redis-sg"  {
 }
 
 module "dev-rds-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -80,16 +82,6 @@ module "dev-rds-sg"  {
     sg_desc                     = local.sg_info.rds.desc
     sg_inbounds                 = local.sg_info.rds.inbound_set
 }
-
-
-/*
-module "dev-common-rules"  {
-    source = "../../modules/network/security_groups_rules"
-    depends_on = [module.dev-common-sg]
-    sg_id                       = local.sg_rule.common.sg_id
-    sg_rules                    = local.sg_rule.common.rules
-}
-*/
 
 
 #-----------------------------------------
