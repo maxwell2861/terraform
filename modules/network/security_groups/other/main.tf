@@ -24,9 +24,8 @@ dynamic "ingress" {
      protocol    = "-1"
      cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
-    Name = "${var.env}-${var.prefix}-${var.sg_name}-sg"
-    }
+   tags = {
+     Name = "${var.env}-${var.prefix}-${var.sg_name}-sg"
+   }  
 
 }

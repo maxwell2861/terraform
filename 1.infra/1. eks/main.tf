@@ -23,8 +23,14 @@ module "infra-subnet" {
 #
 #-----------------------------------------------
 
+#-----------------------------------------------
+#
+# Security Groups | Common | Service | HQ 
+#
+#-----------------------------------------------
+
 module "infra-common-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/common"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -33,10 +39,12 @@ module "infra-common-sg"  {
     sg_name                     = local.sg_info.common.name
     sg_desc                     = local.sg_info.common.desc
     sg_inbounds                 = local.sg_info.common.inbound_set
+    #EKS Cluster Owned
+    eks_cluster_name            = local.cluster_names
 }
 
 module "infra-service-lb-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -48,7 +56,7 @@ module "infra-service-lb-sg"  {
 }
 
 module "infra-hq-lb-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -60,7 +68,7 @@ module "infra-hq-lb-sg"  {
 }
 
 module "infra-redis-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -72,7 +80,7 @@ module "infra-redis-sg"  {
 }
 
 module "infra-rds-sg"  {
-    source = "../../modules/network/security_groups"
+    source = "../../modules/network/security_groups/other"
     #Env
     env                         = var.env
     prefix                      = local.common_info.prefix
@@ -82,7 +90,6 @@ module "infra-rds-sg"  {
     sg_desc                     = local.sg_info.rds.desc
     sg_inbounds                 = local.sg_info.rds.inbound_set
 }
-
 
 /*
 module "infra-common-rules"  {
