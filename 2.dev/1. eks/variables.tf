@@ -19,7 +19,7 @@ locals {
     }
     ip_info        = {
         test              = data.terraform_remote_state.common.outputs.test_office_ip
-        kidari              = data.terraform_remote_state.common.outputs.kidari_office_ip
+        test2              = data.terraform_remote_state.common.outputs.test2_office_ip
         open_vpn            = data.terraform_remote_state.common.outputs.open_vpn_ip
         rancher_ip          = data.terraform_remote_state.common.outputs.rancher_ip
     }
@@ -114,17 +114,17 @@ locals {
                 name        = "hq-lb"
                 desc        = "test dev Network HQ LB Rules"
                 inbound_set = {
-                    http_kidari = {
+                    http_test2 = {
                         port        = 80
                         protocol    = "TCP"
-                        desc = "HTTP Inbounds Kidari Office"
-                        cidr_block  = local.ip_info.kidari
+                        desc = "HTTP Inbounds test2 Office"
+                        cidr_block  = local.ip_info.test2
                     }
-                    https_kidari = {
+                    https_test2 = {
                         port        = 443
                         protocol    = "TCP"
-                        desc = "HTTPS Inbounds Kidari Office"
-                        cidr_block  = local.ip_info.kidari
+                        desc = "HTTPS Inbounds test2 Office"
+                        cidr_block  = local.ip_info.test2
                     }
                     http_test = {
                         port        = 80
