@@ -4,7 +4,6 @@
 #-----------------------------------------------------------
 
 provider "aws" {
-  version = "~> 2.7"
   region  = var.region_id
 }
 
@@ -13,7 +12,7 @@ terraform {
   backend "s3" {
     bucket = "test-init-ops"
     region = "ap-northeast-2"
-    key    = "terraform/init/tfstate/stg/ec2/terraform.tfstate"
+    key    = "terraform/init/tfstate/infra/ec2/terraform.tfstate"
   }
 }
 
@@ -21,7 +20,7 @@ terraform {
 # [Stage]  game
 #-----------------------------------------------------------
 
-module "stg-game" {
+module "bastion-host" {
 source = "../../../modules/compute/stage/linux/public"
 ec2_count       = local.ec2_game["count"]
 ami             = local.ec2_game["ami"]

@@ -1,6 +1,6 @@
 #--------------------------------------------------------------
-# Output Stage EC2 Instance
+# Output EC2 Instance
 #--------------------------------------------------------------
 
-#game servers
-output "game_instance" {value = module.stg-game.ec2_instance}
+#BastionHost
+output "bastion_host_instance" {value = module.bastion_host.ec2_instance}

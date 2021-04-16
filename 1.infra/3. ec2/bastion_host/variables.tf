@@ -2,8 +2,7 @@
 # Project Prefix
 #----------------------------------------------------------------------------------------------
 
-variable "prefix"    { default = "init" }
-variable "region_id" { default = "ap-northeast-2" }
+variable "prefix"    { default = "test" }
 
 #----------------------------------------------------------------------------------------------
 # Locals Variables Setting
@@ -83,20 +82,5 @@ locals {
     stg     = data.terraform_remote_state.common.outputs.stg_profile_id
     prd     = data.terraform_remote_state.common.outputs.prd_profile_id
   }
-
-  #Remote tfstate 
-  tfstate = { 
-    common   = "terraform/${local.prefix}/tfstate/common"
-    stg_sg   = "terraform/${local.prefix}/tfstate/${local.env["stg"]}/sg/terraform.tfstate"
-    stg_ec2  = "terraform/${local.prefix}/tfstate/${local.env["stg"]}/ec2/terraform.tfstate"
-    stg_elb  = "terraform/${local.prefix}/tfstate/${local.env["stg"]}/elb/terraform.tfstate"
-    stg_elc  = "terraform/${local.prefix}/tfstate/${local.env["stg"]}/elc/terraform.tfstate"
-    prd_sg   = "terraform/${local.prefix}/tfstate/${local.env["prd"]}/sg/terraform.tfstate"
-    prd_ec2  = "terraform/${local.prefix}/tfstate/${local.env["prd"]}/ec2/terraform.tfstate"
-    prd_elb  = "terraform/${local.prefix}/tfstate/${local.env["prd"]}/elb/terraform.tfstate"
-    prd_elc  = "terraform/${local.prefix}/tfstate/${local.env["prd"]}/elc/terraform.tfstate"
-  }
-
-
 }
 
