@@ -13,16 +13,6 @@ resource "aws_vpc_peering_connection" "peering" {
   }
 }
 
-# Peering [Temp]
-resource "aws_vpc_peering_connection" "temp" {
-  vpc_id = var.peer_vpc_id
-  peer_vpc_id = "vpc-0618023532c933bf2"
-  auto_accept = true
-  tags = { 
-    Name = upper("${var.peer_vpc_env}-to-infra-temp")
-  }
-}
-
 #--------------------------------------------
 # Peer Network
 #--------------------------------------------
