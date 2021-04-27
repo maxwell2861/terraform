@@ -162,7 +162,74 @@ resource "kubernetes_service" "sample" {
   }
 }
 
+#---------------------------------------------
+# Rancher | ArgoCD
+#---------------------------------------------
+#Create Namespace Argocd
+resource "kubernetes_namespace" "argo-cd" {
+  lifecycle {ignore_changes = [metadata]}
+  metadata {
+    name = "argo-cd"
+  }
+}
 
+resource "rancher2_catalog_v2" "argo-cd" { 
+  cluster_id = var.cluster_id
+  name       = "argo-cd"
+  url        = "https://argoproj.github.io/argo-helm"
+}
+
+#chart install
+resource "rancher2_app_v2" "argocd" {
+  lifecycle { ignore_changes = [name,labels,annotations] }
+  cluster_id = var.cluster_id
+  name = "argo-cd"
+  namespace = kubernetes_namespace.argo-cd.id
+  repo_name = "argo-cd"
+  chart_name = "argo-cd"
+}
+
+
+#------------------------------------------------
+# Create AWS Load Balanacer Controller | Argo
+#------------------------------------------------
+
+
+resource "kubernetes_ingress" "argocd" {
+  metadata {
+    name      = "${var.env}-${var.prefix}-${var.cluster_name}-argocd-lb"
+    namespace = kubernetes_namespace.argo-cd.id
+    annotations = {
+      "kubernetes.io/ingress.class": "alb"
+      "alb.ingress.kubernetes.io/scheme"           = "internet-facing"
+      "alb.ingress.kubernetes.io/backend-protocol" = "HTTP"
+      "alb.ingress.kubernetes.io/healthcheck-protocol" = "HTTP"
+      "alb.ingress.kubernetes.io/certificate-arn"  = "${var.dot_com_acm},${var.dot_net_acm}"
+      "alb.ingress.kubernetes.io/subnets"         = "${var.pub_subnet[0]},${var.pub_subnet[1]}"
+      "alb.ingress.kubernetes.io/actions.ssl-redirect" = <<JSON
+      {"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}
+      JSON
+      "alb.ingress.kubernetes.io/listen-ports"     = <<JSON
+      [{"HTTP": 80},{"HTTPS": 443}]
+      JSON    
+      "alb.ingress.kubernetes.io/security-groups"  = var.hq_elb_sg
+    }
+  }
+
+  spec {
+    rule {
+        host = "${var.env}-argocd.test.net"
+      http {
+        path {  
+          backend {
+            service_name = "argo-cd-argocd-server"
+            service_port = 8080
+          }
+        }
+      }
+    }
+  }
+}
 #---------------------------------------------
 # Create AWS Load Balanacer Controller
 #---------------------------------------------
